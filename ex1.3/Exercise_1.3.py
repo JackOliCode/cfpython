@@ -51,6 +51,7 @@ for recipe in recipes_list:
       print(ingredient)
    print('Difficulty:', recipe['difficulty'])
 
+#print list of ingredients in alphabetical order
 def print_ingredients():
    ingredients_list.sort()
    print('Ingredients Available Across all Recipes:')
