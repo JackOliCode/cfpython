@@ -5,7 +5,7 @@ def display_recipe(recipe):
     print('Name: ', recipe['name'])
     print('Cooking time in minutes: ', recipe['cooking_time'])
     print('Ingredients: ', ', '.join(recipe['ingredients']))
-    print('Difficulty: ', recipe['Difficulty'])
+    print('Difficulty: ', recipe['difficulty'])
 
 #Define a function to search for an ingredient in the given data
 def search_ingredient(data):

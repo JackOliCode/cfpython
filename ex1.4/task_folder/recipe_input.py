@@ -1,6 +1,6 @@
 import pickle
 
-#Define a function called take_recipe, which takes input from the user
+# Define a function called take_recipe, which takes input from the user
 def take_recipe():
     name = input("Recipe name: ")
     try:
@@ -9,24 +9,26 @@ def take_recipe():
         print('Please enter a valid number for cooking time')
         return None
     ingredients = input("Ingredients (separated by a comma): ").split(", ")
+    lowercase_ingredients = [ingredient.lower() for ingredient in ingredients]
+    difficulty = calc_difficulty(cooking_time, lowercase_ingredients)  
     recipe = {
         'name': name,
         'cooking_time': cooking_time,
-        'ingredients': ingredients
+        'ingredients': lowercase_ingredients,
+        'difficulty': difficulty  # Update the difficulty directly
     }
-    recipe['Difficulty'] = calc_difficulty(recipe)
     return recipe
 
 #Define the function calc_diffficulty(), where the difficulty is returned as Easy, Medium, Intermediate or Hard
-def calc_difficulty(recipe):
-    if recipe['cooking_time'] < 10 and len(recipe['ingredients']) < 4:
-      difficulty = 'Easy'
-    elif recipe['cooking_time'] < 10 and len(recipe['ingredients']) >= 4:
-      difficulty = 'Medium'
-    elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) < 4:
-      difficulty = 'Intermediate'
-    elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) >= 4:
-      difficulty = 'Hard'
+def calc_difficulty(cooking_time, ingredients):  # Take cooking_time and ingredients separately
+    if cooking_time < 10 and len(ingredients) < 4:
+        difficulty = 'Easy'
+    elif cooking_time < 10 and len(ingredients) >= 4:
+        difficulty = 'Medium'
+    elif cooking_time >= 10 and len(ingredients) < 4:
+        difficulty = 'Intermediate'
+    elif cooking_time >= 10 and len(ingredients) >= 4:
+        difficulty = 'Hard'
     return difficulty
 
 recipes_list = []
@@ -58,7 +60,7 @@ n = int(input("How many recipes would you like to enter?: "))
 for i in range(n):
     recipe = take_recipe()
     for ingredient in recipe['ingredients']:
-        if not ingredient in all_ingredients:
+        if ingredient not in all_ingredients:
             all_ingredients.append(ingredient)
     recipes_list.append(recipe)
 
