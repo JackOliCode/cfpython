@@ -46,7 +46,7 @@ except:
     data = {'recipes_list': [], 'all_ingredients': []}
 
 else:
-    search_ingredient(data)
-
-finally:
-    recipes_file.close()
+    try:
+        search_ingredient(data)
+    finally:
+        recipes_file.close()
