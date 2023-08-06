@@ -41,10 +41,10 @@ try:
     data = pickle.load(recipes_file)
 except FileNotFoundError:
     print("File doesn't exist - creating a file for you.")
-    data = {'recipes_list': [], 'all_ingredients': []}
+    data = {'recipes_list': recipes_list, 'all_ingredients': all_ingredients}
 except:
     print("An unexpected error occurred - creating a file for you.")
-    data = {'recipes_list': [], 'all_ingredients': []}
+    data = {'recipes_list': recipes_list, 'all_ingredients': all_ingredients}
 else:
     recipes_file.close()
 finally:  
