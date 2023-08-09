@@ -23,6 +23,7 @@ class Recipe:
     def add_ingredients(self, *ingredients):
         self._ingredients.extend(ingredients)
         self.update_all_ingredients()
+        self.calculate_difficulty()
 
     def get_ingredients(self):
         return self._ingredients
@@ -50,9 +51,14 @@ class Recipe:
     
     def set_cooking_time(self, cooking_time):
         self._cooking_time = cooking_time
+        self.calculate_difficulty()
     
     def __str__(self):
-        return f"Recipe Name: {self._name}\nIngredients: {', '.join(self._ingredients)}\nCooking Time: {self._cooking_time} minutes\nDifficulty: {self.get_difficulty()}\n"
+        return f"""Recipe Name: {self._name}
+Ingredients: {', '.join(self._ingredients)}
+Cooking Time: {self._cooking_time} minutes
+Difficulty: {self.get_difficulty()}
+"""
     
 
 def recipe_search(data, search_term):
@@ -81,6 +87,7 @@ cake.set_cooking_time(50)
 
 smoothie.add_ingredients("Bananas", "Milk", "Peanut Butter", "Sugar", "Ice Cubes")
 smoothie.set_cooking_time(5)
+
 # Add recipes to list
 recipes_list = [tea, coffee, cake, smoothie]
 
