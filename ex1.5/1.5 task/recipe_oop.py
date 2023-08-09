@@ -1,10 +1,10 @@
 class Recipe:
     all_ingredients = set()
     
-    def __init__(self, name, ingredients, cooking_time):
+    def __init__(self, name):
         self._name = name
-        self._ingredients = ingredients
-        self._cooking_time = cooking_time
+        self._ingredients = []
+        self._cooking_time = 0
         self._difficulty = None
 
     def calculate_difficulty(self):
