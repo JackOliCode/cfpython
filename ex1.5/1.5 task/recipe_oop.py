@@ -64,11 +64,23 @@ def recipe_search(data, search_term):
 # Main code
 
 # list of recipes
-tea = Recipe("Tea", ["Tea Leaves", "Sugar", "Water"], 5)
-coffee = Recipe("Coffee", ["Coffee Powder", "Sugar", "Water"], 5)
-cake = Recipe("Cake", ["Sugar", "Butter", "Eggs", "Vanilla Essence", "Flour", "Baking Powder", "Milk"], 50)
-smoothie = Recipe("Banana Smoothie", ["Bananas", "Milk", "Peanut Butter", "Sugar", "Ice Cubes"], 5)
+tea = Recipe("Tea")
+coffee = Recipe("Coffee")
+cake = Recipe("Cake")
+smoothie = Recipe("Banana Smoothie")
 
+# Set ingredients and cooking time using setters
+tea.add_ingredients("Tea Leaves", "Sugar", "Water")
+tea.set_cooking_time(5)
+
+coffee.add_ingredients("Coffee Powder", "Sugar", "Water")
+coffee.set_cooking_time(5)
+
+cake.add_ingredients("Sugar", "Butter", "Eggs", "Vanilla Essence", "Flour", "Baking Powder", "Milk")
+cake.set_cooking_time(50)
+
+smoothie.add_ingredients("Bananas", "Milk", "Peanut Butter", "Sugar", "Ice Cubes")
+smoothie.set_cooking_time(5)
 # Add recipes to list
 recipes_list = [tea, coffee, cake, smoothie]
 
