@@ -156,6 +156,42 @@ def search_recipe(conn, cursor):
 
 # Updating an existing recipe:
 def update_recipe(conn, cursor):
+    view_all_recipes(conn, cursor)
+
+ # Asks the user to input the ID of the recipe he wants to update
+    recipe_id_for_update = int((input("\nEnter the ID of the recipe you want to update: ")))
+
+# Asks the user to input which column he wants to update among name, cooking_time and ingredients
+    column_for_update = """str(input("\nChoose and enter which you would like to update among name, 
+                            cooking time and ingredients: "))"""
+    
+     # Asks the user to input the new value
+    updated_value = (input("\nEnter the new value for the recipe: "))
+
+    # Update the chosen field in the database
+    if column_for_update == "name":
+        cursor.execute("UPDATE Recipes SET name = %s WHERE id = %s", (updated_value, recipe_id_for_update))
+    elif column_for_update == "cooking_time":
+        cursor.execute("UPDATE Recipes SET cooking_time = %s WHERE id = %s", (updated_value, recipe_id_for_update))
+    elif column_for_update == "ingredients":
+        cursor.execute("UPDATE Recipes SET ingredients = %s WHERE id = %s", (updated_value, recipe_id_for_update))
+
+
+    # Recalculate difficulty and update the difficulty field
+    cursor.execute("SELECT cooking_time, ingredients FROM Recipes WHERE id = %s", (recipe_id_for_update,))
+    result = cursor.fetchone()
+    if result:
+        cooking_time, ingredients = result
+        lowercase_ingredients = [ingredient.lower() for ingredient in ingredients.split(", ")]
+        difficulty = calculate_difficulty(cooking_time, lowercase_ingredients)
+        cursor.execute("UPDATE Recipes SET difficulty = %s WHERE id = %s", (difficulty, recipe_id_for_update))
+        conn.commit()
+        print(f"The recipe {column_for_update} has been updated!")
+
+    else:
+        print("Recipe not found.")
+
+
 
 
 # Deleting a recipe:
