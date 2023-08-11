@@ -206,17 +206,7 @@ def delete_recipe(conn, cursor):
     print("\nRecipe successfully deleted from the database.")
   
 
-# view all recipes
-def view_all_recipes(conn, cursor):
-    print("\nAll recipes can be found below: ")
-    print("-------------------------------------------")
+# Main Code here
 
-    cursor.execute("SELECT * FROM Recipes")
-    results = cursor.fetchall()
-
-    for row in results:
-        print("\nID: ", row[0])
-        print("Name: ", row[1])
-        print("Ingredients: ", row[2])
-        print("Cooking Time: ", row[3])
-        print("Difficulty: ", row[4])
+main_menu(conn, cursor)
+print("See ya soon\n")
