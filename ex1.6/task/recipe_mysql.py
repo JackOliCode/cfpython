@@ -162,20 +162,21 @@ def update_recipe(conn, cursor):
     recipe_id_for_update = int((input("\nEnter the ID of the recipe you want to update: ")))
 
 # Asks the user to input which column he wants to update among name, cooking_time and ingredients
-    column_for_update = """str(input("\nChoose and enter which you would like to update among name, 
-                            cooking time and ingredients: "))"""
+    column_for_update = str(input("\nChoose and enter which you would like to update among name, cooking time and ingredients: "))
     
-     # Asks the user to input the new value
-    updated_value = (input("\nEnter the new value for the recipe: "))
 
     # Update the chosen field in the database
-    if column_for_update == "name":
+    if column_for_update.lower() == "name":
+        updated_value = input("\nEnter the new name for the recipe: ")
         cursor.execute("UPDATE Recipes SET name = %s WHERE id = %s", (updated_value, recipe_id_for_update))
-    elif column_for_update == "cooking_time":
+    elif column_for_update.lower() == "cooking time":
+        updated_value = input("\nEnter the new cooking time for the recipe: ")
         cursor.execute("UPDATE Recipes SET cooking_time = %s WHERE id = %s", (updated_value, recipe_id_for_update))
-    elif column_for_update == "ingredients":
+    elif column_for_update.lower() == "ingredients":
+        updated_value = input("\nEnter all the ingredients for the recipe, seperated by a comma: ")
         cursor.execute("UPDATE Recipes SET ingredients = %s WHERE id = %s", (updated_value, recipe_id_for_update))
-
+    else:
+        print("Invalid column choice.")
 
     # Recalculate difficulty and update the difficulty field
     cursor.execute("SELECT cooking_time, ingredients FROM Recipes WHERE id = %s", (recipe_id_for_update,))
