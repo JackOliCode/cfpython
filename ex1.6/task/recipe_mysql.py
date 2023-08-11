@@ -196,7 +196,27 @@ def update_recipe(conn, cursor):
 
 # Deleting a recipe:
 def delete_recipe(conn, cursor):
+    view_all_recipes(conn, cursor)
+    recipe_id_for_deletion = (
+        input("\nEnter the ID of the recipe you want to delete: "))
+    cursor.execute("DELETE FROM Recipes WHERE id = (%s)",
+                   (recipe_id_for_deletion, ))
+
+    conn.commit()
+    print("\nRecipe successfully deleted from the database.")
   
 
 # view all recipes
 def view_all_recipes(conn, cursor):
+    print("\nAll recipes can be found below: ")
+    print("-------------------------------------------")
+
+    cursor.execute("SELECT * FROM Recipes")
+    results = cursor.fetchall()
+
+    for row in results:
+        print("\nID: ", row[0])
+        print("Name: ", row[1])
+        print("Ingredients: ", row[2])
+        print("Cooking Time: ", row[3])
+        print("Difficulty: ", row[4])
