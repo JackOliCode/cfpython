@@ -96,27 +96,71 @@ def calculate_difficulty(cooking_time, ingredients):
         return difficulty
 
 
-
-
-
-
-
-
-
-
-
 # Searching for a recipe by ingredient
-def search_recipe(conn, cursor)
+def search_recipe(conn, cursor):
+    all_ingredients = []
+
+    cursor.execute("SELECT ingredients FROM Recipes")
+    results = cursor.fetchall()
+
+    # loops through the results list and for each recipe ingredients tuple
+    for recipe_ingredients_list in results:
+        for recipe_ingredients in recipe_ingredients_list:
+            recipe_ingredient_split = recipe_ingredients.split(", ")
+            all_ingredients.extend(recipe_ingredient_split)
 
 
+    # Remove all duplicates from the list
+    all_ingredients = set(all_ingredients)
+
+     # Convert the set back to a list and sort it
+    all_ingredients_list = sorted(list(all_ingredients))
+
+
+    print("\nAll ingredients list:")
+    print("------------------------")
+
+    for index, ingredient in enumerate(all_ingredients_list):
+        print(str(index+1) + ". " + ingredient)
+
+    try:
+        ingredient_number = int(input("\nEnter the number corresponding to the ingredient you want: "))
+
+        if 1 <= ingredient_number <= len(all_ingredients_list):
+            selected_ingredient = all_ingredients_list[ingredient_number - 1]
+            print(f"\nYou selected the ingredient: {selected_ingredient}")
+
+    except IndexError:
+        print('The number you entered is not on the list.')
+    except ValueError:
+        print('Invalid input. Please enter a valid number.')
+    except:
+        print('An error occurred while finding your ingredient.')
+
+    else:
+        print("\nThe recipe(s) below include(s) the selected ingredient: ")
+        print("-------------------------------------------------------")
+
+    cursor.execute("SELECT * FROM Recipes WHERE ingredients LIKE %s", ('%' + selected_ingredient + '%', ))
+
+    results_recipes_with_ingredient = cursor.fetchall()
+
+    # Displays the data from each recipe found
+    for row in results_recipes_with_ingredient:
+      print("\nID: ", row[0])
+      print("name: ", row[1])
+      print("ingredients: ", row[2])
+      print("cooking_time: ", row[3])
+      print("difficulty: ", row[4])   
+    
 
 # Updating an existing recipe:
-def update_recipe(conn, cursor)
+def update_recipe(conn, cursor):
 
 
 # Deleting a recipe:
-def delete_recipe(conn, cursor)
+def delete_recipe(conn, cursor):
   
 
 # view all recipes
-def view_all_recipes(conn, cursor)
+def view_all_recipes(conn, cursor):
