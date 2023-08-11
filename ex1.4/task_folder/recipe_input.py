@@ -19,7 +19,7 @@ def take_recipe():
     }
     return recipe
 
-#Define the function calc_diffficulty(), where the difficulty is returned as Easy, Medium, Intermediate or Hard
+#Define the function calc_difficulty(), where the difficulty is returned as Easy, Medium, Intermediate or Hard
 def calc_difficulty(cooking_time, ingredients):  # Take cooking_time and ingredients separately
     if cooking_time < 10 and len(ingredients) < 4:
         difficulty = 'Easy'

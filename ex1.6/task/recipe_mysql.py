@@ -50,7 +50,58 @@ def main_menu(conn, cursor):
       view_all_recipes(conn, cursor)
 
 # Creating a new recipe:
-def create_recipe(conn, cursor)
+def create_recipe(conn, cursor):
+    #recipe_ingredients = []
+
+    # Asks the user to input recipe name
+    name = str(input("Enter the name of the recipe: "))
+
+    # Asks the user to input cooking time
+    try:
+        cooking_time = int(input("Cooking time in minutes: "))
+    except ValueError:
+        print('Please enter a valid number for cooking time')
+        return None
+
+    # Asks the user in input ingredients
+    ingredients = (input("Enter the ingredients for your recipe, separated by a comma: ").split(", "))
+    if not ingredients:
+        print("Please provide at least one ingredient")
+        return None
+    lowercase_ingredients = [ingredient.lower() for ingredient in ingredients]
+    difficulty = calculate_difficulty(cooking_time, lowercase_ingredients)
+    recipe_ingredients_str = ", ".join(lowercase_ingredients)
+
+    # SQL and database insertion
+    sql = 'INSERT INTO Recipes (name, ingredients, cooking_time, difficulty) VALUES (%s, %s, %s, %s)'
+    val = (name, recipe_ingredients_str, cooking_time, difficulty)
+    cursor.execute(sql, val)
+    conn.commit()
+    print("Recipe saved into the database.")
+
+def calculate_difficulty(cooking_time, ingredients):
+        num_ingredients = len(ingredients)
+        if cooking_time < 10:
+            if num_ingredients < 4:
+                difficulty = "Easy"
+            else:
+                difficulty = "Medium"
+        else:
+            if num_ingredients < 4:
+                difficulty = "Intermediate"
+            else:
+                difficulty = "Hard"
+
+        print("Difficulty level: ", difficulty)
+        return difficulty
+
+
+
+
+
+
+
+
 
 
 
