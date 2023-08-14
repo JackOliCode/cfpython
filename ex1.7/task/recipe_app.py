@@ -55,7 +55,8 @@ class Recipe(Base):
 
   def return_ingredients_as_list(self):
         if not self.ingredients:
-            return "It looks like your ingredients list is empty."
+            print("It looks like your ingredients list is empty.")
+            return []        
         else:
             return self.ingredients.split(', ')
 
@@ -70,3 +71,75 @@ Base.metadata.create_all(engine)
 #===================
 
 session = Session()
+
+#===================
+#Main Operations as Functions
+#===================
+
+#===================
+# Create Recipe
+#===================
+
+def create_recipe():
+
+    while True:
+        name = input("Enter the recipe name (up to 50 characters): ")
+        if len(name) <= 50:
+            break
+        else:
+            print("Name exceeds the maximum length. Please enter a shorter name.")
+
+    while True:
+        cooking_time = input("Enter the cooking time (in minutes): ")
+        if cooking_time.isnumeric():
+            break
+        else:
+            print("Invalid cooking time. Please enter a valid number.")
+
+    while True:
+        num_ingredients = input("Enter the number of ingredients for this recipe: ")
+        if num_ingredients.isnumeric():
+            num_ingredients = int(num_ingredients)
+            break
+        else:
+            print("Invalid number of ingredients. Please enter a valid number.")
+
+    recipe_ingredients = []  # Temporary list to collect ingredients renamed to avoid confusion
+
+    for n in range(num_ingredients):
+        ingredient = input(f"Enter ingredient {n + 1}: ")
+        recipe_ingredients.append(ingredient)
+
+    ingredients_string = ", ".join(recipe_ingredients)
+
+    recipe_entry = Recipe(
+        name = name,
+        ingredients = ingredients_string,
+        cooking_time = int(cooking_time)
+    )
+
+    recipe_entry.calculate_difficulty()
+
+    session.add(recipe_entry)
+    session.commit()
+    
+    print(f'{name} added to Recipes!')
+
+#===================
+# View Recipes
+#===================
+
+
+#===================
+# Search by Ingredient
+#===================
+
+
+#===================
+# Edit recipes
+#===================
+
+
+#===================
+# Delete recipe
+#===================
