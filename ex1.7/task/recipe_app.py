@@ -36,8 +36,33 @@ class Recipe(Base):
         "\nDifficulty: " + str(self.difficulty) + \
         "\nIngredients: " + str(self.ingredients)
     return output
+  
+  def calculate_difficulty(self):
+        num_ingredients = len(self.ingredients.split(','))
+        if self.cooking_time < 10:
+            if num_ingredients < 4:
+                difficulty = "Easy"
+            else:
+                difficulty = "Medium"
+        else:
+            if num_ingredients < 4:
+                difficulty = "Intermediate"
+            else:
+                difficulty = "Hard"
 
+        self.difficulty = difficulty
+  
+
+  def return_ingredients_as_list(self):
+        if not self.ingredients:
+            return "It looks like your ingredients list is empty."
+        else:
+            return self.ingredients.split(', ')
+
+#===================
 # Create tables of all models defined
+#===================
+
 Base.metadata.create_all(engine)
 
 #===================
