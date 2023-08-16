@@ -33,8 +33,8 @@ class Recipe(Base):
     output = "="*15 + \
         "\nName: " + str(self.name) + \
         "\nCooking time (minutes): " + str(self.cooking_time) + \
-        "\nDifficulty: " + str(self.difficulty) + \
-        "\nIngredients: " + str(self.ingredients)
+        "\nIngredients: " + str(self.ingredients) + \
+        "\nDifficulty: " + str(self.difficulty) 
     return output
   
   def calculate_difficulty(self):
@@ -240,8 +240,8 @@ def edit_recipe():
         print(recipe_to_edit)
         print("\nSelect an attribute to edit:")
         print("1. Name")
-        print("2. Ingredients")
-        print("3. Cooking Time")
+        print("2. Cooking Time")
+        print("3. Ingredients")
 
         while True:
             try:
@@ -250,26 +250,27 @@ def edit_recipe():
             except ValueError:
                 print("Invalid input. Please enter a valid attribute number.")
 
-            if attribute_choice == 1:
-                new_name = input("Enter the new name for the recipe: ")
-                recipe_to_edit.name = new_name
-            elif attribute_choice == 2:
-                new_ingredients = input("Enter the new ingredients for the recipe (comma-separated): ")
-                recipe_to_edit.ingredients = new_ingredients
-            elif attribute_choice == 3:
-                new_cooking_time = int(input("Enter the new cooking time for the recipe (in minutes): "))
-                recipe_to_edit.cooking_time = new_cooking_time
-            else:
-                print("Invalid attribute choice.")
-                return None
-            
-            # Recalculate and update difficulty
-            recipe_to_edit.calculate_difficulty()
+        if attribute_choice == 1:
+            new_name = input("Enter the new name for the recipe: ")
+            recipe_to_edit.name = new_name
+        elif attribute_choice == 2:
+            new_cooking_time = int(input("Enter the new cooking time for the recipe (in minutes): "))
+            recipe_to_edit.cooking_time = new_cooking_time
+        elif attribute_choice == 3:
+            new_ingredients = input("Enter the new ingredients for the recipe (comma-separated): ")
+            recipe_to_edit.ingredients = new_ingredients
+        
+        else:
+            print("Invalid attribute choice.")
+            return None
+        
+        # Recalculate and update difficulty
+        recipe_to_edit.calculate_difficulty()
 
             # Commit the changes to the database
-            session.commit()
+        session.commit()
 
-            print("Recipe updated successfully.")
+        print("Recipe updated successfully.")
     
 
 #===================
