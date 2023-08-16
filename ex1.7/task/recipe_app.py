@@ -187,7 +187,7 @@ def search_by_ingredients():
             conditions = []
             
             for ingredient in search_ingredients:
-                like_term = f"%{ingredient}"
+                like_term = f"%{ingredient}%"
                 conditions.append(Recipe.ingredients.like(like_term))
             
             # Retrieve recipes based on the conditions
@@ -257,7 +257,7 @@ def edit_recipe():
             new_cooking_time = int(input("Enter the new cooking time for the recipe (in minutes): "))
             recipe_to_edit.cooking_time = new_cooking_time
         elif attribute_choice == 3:
-            new_ingredients = input("Enter the new ingredients for the recipe (comma-separated): ")
+            new_ingredients = input("Enter the new ingredients for the recipe (comma-separated): ").lower()
             recipe_to_edit.ingredients = new_ingredients
         
         else:
