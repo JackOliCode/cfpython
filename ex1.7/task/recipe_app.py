@@ -107,7 +107,7 @@ def create_recipe():
     recipe_ingredients = []  # Temporary list to collect ingredients renamed to avoid confusion
 
     for n in range(num_ingredients):
-        ingredient = input(f"Enter ingredient {n + 1}: ")
+        ingredient = input(f"Enter ingredient {n + 1}: ").lower()
         recipe_ingredients.append(ingredient)
 
     ingredients_string = ", ".join(recipe_ingredients)
@@ -128,12 +128,80 @@ def create_recipe():
 #===================
 # View Recipes
 #===================
-
+def view_all_recipes():
+    all_recipes = session.query(Recipe).all()
+    
+    if not all_recipes:
+        print("There aren't any entries in the database.")
+        return None
+    
+    for recipe in all_recipes:
+        print(recipe)
 
 #===================
 # Search by Ingredient
 #===================
+def search_by_ingredients():
 
+    if session.query(Recipe).count() == 0:
+        print("There is no recipe in the database")
+        return None
+    
+    else:
+        results = session.query(Recipe.ingredients).all()
+
+        all_ingredients = []
+
+        for recipe_ingredients_list in results:
+            for recipe_ingredients in recipe_ingredients_list:
+                recipe_ingredient_split = recipe_ingredients.split(", ")
+                recipe_ingredient_set = set(recipe_ingredient_split)
+                all_ingredients_list = sorted(list(recipe_ingredient_set))
+                all_ingredients.extend(all_ingredients_list)
+
+        print("\nBelow are all the ingredients stored. You can search for recipes by ingredient number.")
+        print("="*15)
+
+        for index, ingredient in enumerate(all_ingredients):
+            print(str(index+1) + ". " + ingredient)
+
+        try:
+            ingredient_numbers_input = (input("\nEnter the numbers corresponding to the ingredients you'd like to search, seperated by a space: "))
+            ingredient_numbers_split = ingredient_numbers_input.split(" ")
+
+            selected_numbers = list(map(int, ingredient_numbers_split))
+
+            search_ingredients = []
+
+            for number in selected_numbers:
+                if 1 <= number <= len(all_ingredients):
+                    selected_ingredient = all_ingredients[number - 1]
+                    search_ingredients.append(selected_ingredient)
+                else:
+                    print(f"Ingredient with number {number} is not on the list.")
+            
+            print(f"\nYou selected the ingredient(s): {search_ingredients}")
+
+            # Create a list of like conditions to search for each ingredient
+
+            conditions = []
+            
+            for ingredient in search_ingredients:
+                like_term = f"%{ingredient}"
+                conditions.append(Recipe.ingredients.like(like_term))
+            
+            # Retrieve recipes based on the conditions
+            searched_recipes = session.query(Recipe).filter(*conditions).all()
+            
+            if not searched_recipes:
+                print("No recipes found with the selected ingredients.")
+            else:
+                print("\nSearched Recipes: ")
+                for recipe in searched_recipes:
+                    print(recipe)
+
+        except ValueError:
+            print("Invalid input. Please enter valid numbers.")
 
 #===================
 # Edit recipes
