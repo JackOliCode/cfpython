@@ -155,9 +155,11 @@ def search_by_ingredients():
         for recipe_ingredients_list in results:
             for recipe_ingredients in recipe_ingredients_list:
                 recipe_ingredient_split = recipe_ingredients.split(", ")
-                recipe_ingredient_set = set(recipe_ingredient_split)
-                all_ingredients_list = sorted(list(recipe_ingredient_set))
-                all_ingredients.extend(all_ingredients_list)
+                for ingredient in recipe_ingredient_split:
+                    if ingredient not in all_ingredients:
+                        all_ingredients.append(ingredient)
+
+        all_ingredients = sorted(all_ingredients)
 
         print("\nBelow are all the ingredients stored. You can search for recipes by ingredient number.")
         print("="*15)
