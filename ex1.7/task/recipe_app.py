@@ -144,7 +144,7 @@ def view_all_recipes():
 def search_by_ingredients():
 
     if session.query(Recipe).count() == 0:
-        print("There is no recipe in the database")
+        print("There is no recipes in the database")
         return None
     
     else:
@@ -206,8 +206,117 @@ def search_by_ingredients():
 #===================
 # Edit recipes
 #===================
+def edit_recipe():
 
+    if session.query(Recipe).count() == 0:
+        print("There is no recipes in the database")
+        return None
+    
+    else:
+        results = session.query(Recipe).with_entities(Recipe.id, Recipe.name).all()
+        print("\nList of stored recipes that you can edit")
+        for recipe in results:
+            print("\nId: ", recipe[0])
+            print("Name: ", recipe[1])
+
+        # Asks the user to input the ID of the recipe he wants to update
+
+        while True:
+            try:
+                recipe_id_for_update = int((input("\nEnter the ID of the recipe you want to update: ")))
+                break
+            except ValueError:
+                print("Invalid input. Please enter a valid ID.")
+        
+
+        # Retrieve the recipe to edit from the database
+        recipe_to_edit = session.query(Recipe).filter(id=recipe_id_for_update).first()
+
+        if not recipe_to_edit:
+            print("Recipe with the selected ID does not exist.")
+            return None
+        
+        print("\nRecipe to Edit:")
+        print(recipe_to_edit)
+        print("\nSelect an attribute to edit:")
+        print("1. Name")
+        print("2. Ingredients")
+        print("3. Cooking Time")
+
+        while True:
+            try:
+                attribute_choice = int(input("Enter the number corresponding to the attribute you want to edit: "))
+                break
+            except ValueError:
+                print("Invalid input. Please enter a valid attribute number.")
+
+            if attribute_choice == 1:
+                new_name = input("Enter the new name for the recipe: ")
+                recipe_to_edit.name = new_name
+            elif attribute_choice == 2:
+                new_ingredients = input("Enter the new ingredients for the recipe (comma-separated): ")
+                recipe_to_edit.ingredients = new_ingredients
+            elif attribute_choice == 3:
+                new_cooking_time = int(input("Enter the new cooking time for the recipe (in minutes): "))
+                recipe_to_edit.cooking_time = new_cooking_time
+            else:
+                print("Invalid attribute choice.")
+                return None
+            
+            # Recalculate and update difficulty
+            recipe_to_edit.calculate_difficulty()
+
+            # Commit the changes to the database
+            session.commit()
+
+            print("Recipe updated successfully.")
+        
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
 
 #===================
 # Delete recipe
 #===================
+
+def delete_recipe():
+    if session.query(Recipe).count() == 0:
+        print("There is no recipes in the database")
+        return None
+    
+    else:
+        results = session.query(Recipe).with_entities(Recipe.id, Recipe.name).all()
+        print("\nList of stored recipes that you can delete")
+        for recipe in results:
+                print("\nId: ", recipe[0])
+                print("Name: ", recipe[1])
+
+        # Asks the user to input the ID of the recipe they wants to delete
+
+        while True:
+            try:
+                recipe_id_for_delete = int(input("\nEnter the ID of the recipe you want to delete: "))
+                break
+            except ValueError:
+                print("Invalid input. Please enter a valid ID.")
+
+
+        # Retrieve the recipe to edit from the database
+
+        recipe_to_delete = session.query(Recipe).filter(id=recipe_id_for_delete).first()
+
+        if not recipe_to_delete:
+            print("Recipe with the selected ID does not exist.")
+            return None
+        
+        print("Recipe to Delete:")
+        print(recipe_to_delete)
+        
+        # Ask user for confirmation
+        confirm = input(f"Are you sure you want to delete your recipe for {recipe_to_delete.name} (yes/no): ")
+        if confirm.lower() == "yes":
+            # Perform the delete operation
+            session.delete(recipe_to_delete)
+            session.commit()
+            print("Recipe deleted successfully.")
+        else:
+            print("Deletion operation canceled.")
