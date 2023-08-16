@@ -156,8 +156,9 @@ def search_by_ingredients():
             for recipe_ingredients in recipe_ingredients_list:
                 recipe_ingredient_split = recipe_ingredients.split(", ")
                 for ingredient in recipe_ingredient_split:
-                    if ingredient not in all_ingredients:
-                        all_ingredients.append(ingredient)
+                    lowercase_ingredient = ingredient.lower()  # Convert to lowercase
+                    if lowercase_ingredient not in all_ingredients:
+                        all_ingredients.append(lowercase_ingredient)
 
         all_ingredients = sorted(all_ingredients)
 
