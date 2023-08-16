@@ -182,7 +182,11 @@ def search_by_ingredients():
                     search_ingredients.append(selected_ingredient)
                 else:
                     print(f"Ingredient with number {number} is not on the list.")
-            
+
+            # If no valid ingredients were selected, exit the function
+            if not search_ingredients:
+                return
+
             print(f"\nYou selected the ingredient(s): {search_ingredients}")
 
             # Create a list of like conditions to search for each ingredient
