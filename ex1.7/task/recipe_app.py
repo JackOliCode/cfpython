@@ -270,9 +270,7 @@ def edit_recipe():
             session.commit()
 
             print("Recipe updated successfully.")
-        
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
+    
 
 #===================
 # Delete recipe
@@ -320,3 +318,43 @@ def delete_recipe():
             print("Recipe deleted successfully.")
         else:
             print("Deletion operation canceled.")
+
+#===================
+# Main Menu
+#===================
+
+def main_menu():
+    choice = ""
+    while (choice != "quit"):
+        print("="*20)
+        print("\nMain Menu:")
+        print("-------------")
+        print("Pick a choice:")
+        print("   1. Create a new recipe")
+        print("   2. View all recipes") 
+        print("   3. Search for a recipe by ingredient")
+        print("   4. Edit an existing recipe")
+        print("   5. Delete a recipe")
+        print("\n   Type 'quit' to exit the program.")
+        choice = input("\nYour choice: ")
+        print("="*20)
+
+        if choice == "1":
+            create_recipe()
+        elif choice == "2":
+            view_all_recipes()
+        elif choice == "3":
+            search_by_ingredients()
+        elif choice == "4":
+            edit_recipe()
+        elif choice == "5":
+            delete_recipe()
+        else:
+            if choice == "quit".lower():
+                print("Seeya next time!\n")
+            else:
+                print("Please enter a number for your choice from 1-5.")
+
+
+main_menu()
+session.close()
