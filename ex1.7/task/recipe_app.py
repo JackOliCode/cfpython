@@ -230,7 +230,7 @@ def edit_recipe():
         
 
         # Retrieve the recipe to edit from the database
-        recipe_to_edit = session.query(Recipe).filter(id=recipe_id_for_update).first()
+        recipe_to_edit = session.query(Recipe).filter(Recipe.id == recipe_id_for_update).one()
 
         if not recipe_to_edit:
             print("Recipe with the selected ID does not exist.")
@@ -300,7 +300,7 @@ def delete_recipe():
 
         # Retrieve the recipe to edit from the database
 
-        recipe_to_delete = session.query(Recipe).filter(id=recipe_id_for_delete).first()
+        recipe_to_delete = session.query(Recipe).filter(Recipe.id == recipe_id_for_delete).one()
 
         if not recipe_to_delete:
             print("Recipe with the selected ID does not exist.")
